@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/camunda
+    username: ${CAMUNDA_DB_USERNAME}
+    password: ${CAMUNDA_DB_PASSWORD}
+
+server:
+  port: 8090
+
+camunda:
+  bpm:
+    job-execution.deployment-aware: true
+
+job.executor:
+  maxWaitInMillis: 5000
+  waitTimeInMillis: 3000

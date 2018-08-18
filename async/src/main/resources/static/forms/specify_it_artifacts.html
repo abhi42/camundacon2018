@@ -1,0 +1,52 @@
+<form role="form" class="form-horizontal">
+    <script cam-script type="text/form-script">
+      var itArtifact = $scope.itArtifact = {};
+
+      camForm.on('form-loaded', function() {
+
+        camForm.variableManager.createVariable({
+          name: 'itArtifact',
+          type: 'Object',
+          value: itArtifact,
+          valueInfo: {
+            serializationDataFormat: 'application/json',
+            objectTypeName: 'ch.generali.camundacon18.async.impl.ItArtifact'
+           }
+        });
+
+         camForm.variableManager.fetchVariable('businessArtifact');
+      });
+
+      camForm.on('variables-fetched', function() {
+        $scope.businessArtifact = camForm.variableManager.variable('businessArtifact').value;
+    });
+
+    camForm.on('submit', function(evt) {
+        evt.submitPrevented = false;
+    });
+
+    </script>
+
+    <div class="control-group">
+        <label class="control-label">Business Artifact: </label>
+        <label class="control-label">{{businessArtifact}}</label>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="groupId">Group ID</label>
+        <div class="controls">
+            <input id="groupId" class="form-control" type="text" ng-model="itArtifact.groupId" required />
+        </div>
+
+        <label class="control-label" for="artifactId">Artifact ID</label>
+        <div class="controls">
+            <input id="artifactId" class="form-control" type="text" ng-model="itArtifact.artifactId" required />
+        </div>
+
+        <label class="control-label" for="version">Version</label>
+        <div class="controls">
+            <input id="version" class="form-control" type="text" ng-model="itArtifact.version" required />
+        </div>
+    </div>
+
+</form>

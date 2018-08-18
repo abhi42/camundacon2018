@@ -1,0 +1,22 @@
+<form role='form'>
+    <script cam-script type='text/form-script'>
+        camForm.on('submit', function(evt) {
+      // handle submit
+      // may prevent the submit from being executed:
+      evt.submitPrevented = false;
+    });
+    </script>
+
+
+    <div class="form-group">
+        <p>Please select the artifacts to be deployed:</p>
+
+        <select cam-variable-name="businessArtifact"
+            cam-variable-type="String">
+            <option>Ingestion</option>
+            <option>Analytics</option>
+            <option>Monitoring</option>
+        </select>
+    </div>
+
+</form>
