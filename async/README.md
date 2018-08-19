@@ -6,7 +6,7 @@ The UI tasks for this application are displayed in the task list of the Camunda 
 In conjunction with the Camunda web application, this application is meant to show how to setup Camunda applications that run in separate JVMs, but use the same Camunda central task list. 
 
 # Points to note
-* The deployment application is configured so that any job execution is deployment aware. This means that the job execution thread only executes jobs that are marked as belonging to its own application. This is to prevent any other application from picking up jobs belonging to this application (which would result in ClassNotFoundExceptions).
+* The process engine of the deployment application is configured to be deployment aware. This means that the job execution thread only executes jobs that are marked as belonging to its own application. This is to prevent any other application from picking up jobs belonging to this application (which would result in ClassNotFoundExceptions).
 
 ## Asynchronous execution of service tasks 
 * A service task of this application needs to be executed in the JVM of this application, not in that of the Camunda web application. Since the UI of a UI task executes in the JVM of the Camunda web application, measures must be taken to ensure that the service task immediately after the UI task runs in the JVM of this application. Otherwise a ClassNotFoundException (for the JavaDelegate) will occur, since the implementing class is not present in the JVM of the Camunda web application.
@@ -19,3 +19,6 @@ In conjunction with the Camunda web application, this application is meant to sh
 * UI task: Task and job execution listeners specifed after the UI task (i.e. completion or end) cannot be defined since they will be run in the UI thread that runs on the camunda web app. This is the case even if the UI task has been configured to execute a new job AFTER the UI interaction. 
 * Configuration of the time period when the job executes to pick up tasks for exectuion for its application from the database 
 
+# Camunda Links
+* https://docs.camunda.org/manual/7.9/user-guide/process-engine/transactions-in-processes/
+* https://docs.camunda.org/manual/7.9/user-guide/process-engine/the-job-executor/
