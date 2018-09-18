@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1gdkgl4" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.0.1">
+  <bpmn:process id="Sync1DeployProcess" name="Sync1 Deploy" isExecutable="true">
+    <bpmn:startEvent id="startEvent_deploy" name="Start Deployment" camunda:formKey="embedded:/async_deployment/choose_deployment.html" camunda:initiator="initiator">
+      <bpmn:outgoing>SequenceFlow_0rylmpe</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0rylmpe" sourceRef="startEvent_deploy" targetRef="userTask_specifyITArtifacts" />
+    <bpmn:serviceTask id="serviceTask_performDeployment" name="Perform deployment" camunda:delegateExpression="${performDeployment}">
+      <bpmn:incoming>SequenceFlow_16jo9mh</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1gc1leg</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="endEvent_deploy" name="End Deployment">
+      <bpmn:incoming>SequenceFlow_1wctlum</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1wctlum" sourceRef="serviceTask_notifyUser" targetRef="endEvent_deploy" />
+    <bpmn:sequenceFlow id="SequenceFlow_0084kxu" sourceRef="serviceTask_logDeployment" targetRef="serviceTask_notifyUser" />
+    <bpmn:serviceTask id="serviceTask_logDeployment" name="Log deployment" camunda:delegateExpression="${logDeployment}">
+      <bpmn:incoming>SequenceFlow_1ofhpls</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0084kxu</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="userTask_specifyITArtifacts" name="Specify IT artifacts" camunda:formKey="embedded:/async_deployment/specify_it_artifacts.html">
+      <bpmn:extensionElements>
+        <camunda:taskListener delegateExpression="${uiTaskExecutionListener}" event="create" />
+        <camunda:executionListener delegateExpression="${uiTaskExecutionListener}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0rylmpe</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16jo9mh</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="SequenceFlow_16jo9mh" sourceRef="userTask_specifyITArtifacts" targetRef="serviceTask_performDeployment" />
+    <bpmn:sequenceFlow id="SequenceFlow_1gc1leg" sourceRef="serviceTask_performDeployment" targetRef="serviceTask_analyzeDeployment" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ofhpls" sourceRef="serviceTask_analyzeDeployment" targetRef="serviceTask_logDeployment" />
+    <bpmn:serviceTask id="serviceTask_analyzeDeployment" name="Analyze deployment statistics (idempotent)" camunda:delegateExpression="${analyzeDeployment}">
+      <bpmn:incoming>SequenceFlow_1gc1leg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ofhpls</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="serviceTask_notifyUser" name="Notify user" camunda:delegateExpression="${notifyUser}">
+      <bpmn:incoming>SequenceFlow_0084kxu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1wctlum</bpmn:outgoing>
+    </bpmn:sendTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Sync1DeployProcess">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="startEvent_deploy">
+        <dc:Bounds x="174" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="151" y="145" width="85" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0rylmpe_di" bpmnElement="SequenceFlow_0rylmpe">
+        <di:waypoint x="210" y="120" />
+        <di:waypoint x="254" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_09briq1_di" bpmnElement="serviceTask_performDeployment">
+        <dc:Bounds x="410" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_125p2xn_di" bpmnElement="endEvent_deploy">
+        <dc:Bounds x="1037" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1014" y="145" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wctlum_di" bpmnElement="SequenceFlow_1wctlum">
+        <di:waypoint x="984" y="120" />
+        <di:waypoint x="1037" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0084kxu_di" bpmnElement="SequenceFlow_0084kxu">
+        <di:waypoint x="827" y="120" />
+        <di:waypoint x="884" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0crcn9p_di" bpmnElement="serviceTask_logDeployment">
+        <dc:Bounds x="727" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_1eggeyl_di" bpmnElement="userTask_specifyITArtifacts">
+        <dc:Bounds x="254" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_16jo9mh_di" bpmnElement="SequenceFlow_16jo9mh">
+        <di:waypoint x="354" y="120" />
+        <di:waypoint x="410" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1gc1leg_di" bpmnElement="SequenceFlow_1gc1leg">
+        <di:waypoint x="510" y="120" />
+        <di:waypoint x="568" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ofhpls_di" bpmnElement="SequenceFlow_1ofhpls">
+        <di:waypoint x="668" y="120" />
+        <di:waypoint x="727" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0wzuxh2_di" bpmnElement="serviceTask_analyzeDeployment">
+        <dc:Bounds x="568" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SendTask_0j7dix4_di" bpmnElement="serviceTask_notifyUser">
+        <dc:Bounds x="884" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
