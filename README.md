@@ -6,4 +6,4 @@ The repository consists of 2 projects, each being a spring boot application:
 Each Camunda application uses the same Camunda postgreSQL DB since they both share the task list. 
 
 # Pre-requisites
-* A postgreSQL DB installation
+* Refer to [HowToSetupCamundaVM.md](https://github.com/abhi42/camundacon2018/blob/master/HowToSetupCamundaVM.md)

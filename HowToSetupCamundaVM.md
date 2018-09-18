@@ -4,7 +4,7 @@
 * Disk space: About 15 GB, but definitely more than 10 GB to not run into space problems
 * Memory: 6 GB
 
-## Softwares to install:
+## Softwares to install and configure:
 * Install Oracle JDK (One can also use OpenJDK, in that case, skip this step)
   * sudo apt-add-repository ppa:webupd8team/java
   * sudo apt-get update
