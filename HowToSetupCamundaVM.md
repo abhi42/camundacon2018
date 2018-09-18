@@ -5,7 +5,7 @@
 * Memory: 6 GB
 
 ## Softwares to install and configure:
-* Install Oracle JDK (One can also use OpenJDK, in that case, skip this step)
+* Install Oracle JDK (One can also use OpenJDK, in that case, replace this step with OpenJDK installation)
   * sudo apt-add-repository ppa:webupd8team/java
   * sudo apt-get update
   * sudo apt-get install oracle-java8-installer
